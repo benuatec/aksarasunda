@@ -12,21 +12,30 @@ if (!url || !anonKey || !table) {
 const supabase = createClient(url, anonKey);
 
 async function main() {
-  console.log(`🚀 ${new Date().toISOString()}`);
-  console.log(`📋 Pinging table: ${table}`);
+  const start = Date.now();
 
-  const { error } = await supabase
+  console.log("======================================");
+  console.log("🚀 Supabase Keep Alive");
+  console.log(`🕒 Time   : ${new Date().toISOString()}`);
+  console.log(`📋 Table  : ${table}`);
+
+  const { data, error } = await supabase
     .from(table)
     .select("id")
     .limit(1);
 
   if (error) {
-    console.error("❌ Keep Alive gagal");
+    console.error("❌ Status : FAILED");
     console.error(error);
     process.exit(1);
   }
 
-  console.log("✅ Keep Alive berhasil");
+  const duration = Date.now() - start;
+
+  console.log(`📊 Rows   : ${data.length}`);
+  console.log(`⚡ Time   : ${duration} ms`);
+  console.log("✅ Status : SUCCESS");
+  console.log("======================================");
 }
 
 main();
