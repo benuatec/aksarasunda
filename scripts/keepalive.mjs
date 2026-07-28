@@ -5,12 +5,13 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-async function keepAlive() {
-  console.log(`🔄 Pinging table: ${process.env.SUPABASE_TABLE}`);
+async function main() {
+  console.log(`🚀 ${new Date().toISOString()}`);
+  console.log(`📋 Table: ${process.env.SUPABASE_TABLE}`);
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from(process.env.SUPABASE_TABLE)
-    .select("*")
+    .select("id")
     .limit(1);
 
   if (error) {
@@ -20,7 +21,6 @@ async function keepAlive() {
   }
 
   console.log("✅ Keep Alive berhasil");
-  console.log(data);
 }
 
-keepAlive();
+main();
