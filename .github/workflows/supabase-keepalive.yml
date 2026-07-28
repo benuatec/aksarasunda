@@ -2,7 +2,6 @@ name: Supabase Keep Alive
 
 on:
   schedule:
-    # Setiap 3 hari
     - cron: "0 2 */3 * *"
 
   workflow_dispatch:
@@ -19,9 +18,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Random delay
         run: sleep $((RANDOM % 1800))
@@ -31,4 +31,4 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_TABLE: ${{ secrets.SUPABASE_TABLE }}
-        run: node scripts/keepalive.js
+        run: node scripts/keepalive.mjs
