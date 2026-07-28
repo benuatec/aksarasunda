@@ -2,8 +2,8 @@ name: Supabase Keep Alive
 
 on:
   schedule:
-    # Setiap hari pukul 02:00 UTC
-    - cron: "0 2 * * *"
+    # Setiap 3 hari sekali
+    - cron: "0 2 */3 * *"
 
   workflow_dispatch:
 
@@ -12,8 +12,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Random delay
+        run: sleep $((RANDOM % 1800))
+
       - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          curl "https://ivxvageeuttcopaffcgq.supabase.co/rest/v1/profiles?select=id&limit=1" \
+          curl -s \
+            "$SUPABASE_URL/rest/v1/profiles?select=id&limit=1" \
             -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2eHZhZ2VldXR0Y29wYWZmY2dxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDA0NzQsImV4cCI6MjA5NDAxNjQ3NH0.NZ8jIXyjXfSL9dn-bXnfKWTZ8yG05qyRquLWPw6HaTI" \
-            -H "Authorization: Bearer YOUR_SUPABASE_ANON_KEY"
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY"
