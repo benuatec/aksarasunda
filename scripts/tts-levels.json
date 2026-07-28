@@ -1,0 +1,85 @@
+[
+  {
+    "name": "a",
+    "text": "a",
+    "prompt": "Ucapkan hanya bunyi vokal a, pendek, natural, jelas, seperti guru sedang mengajarkan aksara Sunda. Jangan tambahkan kata lain."
+  },
+  {
+    "name": "i",
+    "text": "i",
+    "prompt": "Ucapkan hanya bunyi vokal i, pendek, natural, jelas, seperti guru sedang mengajarkan aksara Sunda. Jangan tambahkan kata lain."
+  },
+  {
+    "name": "u",
+    "text": "u",
+    "prompt": "Ucapkan hanya bunyi vokal u, pendek, natural, jelas, seperti guru sedang mengajarkan aksara Sunda. Jangan tambahkan kata lain."
+  },
+  {
+    "name": "e-acute",
+    "text": "é",
+    "prompt": "Ucapkan hanya bunyi vokal é taling seperti e pada kata enak, pendek, natural, jelas. Jangan tambahkan kata lain."
+  },
+  {
+    "name": "o",
+    "text": "o",
+    "prompt": "Ucapkan hanya bunyi vokal o, pendek, natural, jelas, seperti guru sedang mengajarkan aksara Sunda. Jangan tambahkan kata lain."
+  },
+  {
+    "name": "e",
+    "text": "e",
+    "prompt": "Ucapkan hanya bunyi vokal e pepet, pendek, natural, jelas, seperti e pada kata besar. Jangan tambahkan kata lain."
+  },
+  {
+    "name": "eu",
+    "text": "eu",
+    "prompt": "Ucapkan hanya bunyi vokal eu khas Sunda, pendek, natural, jelas. Jangan tambahkan kata lain."
+  },
+  { "name": "nol", "text": "nol" },
+  { "name": "hiji", "text": "hiji" },
+  { "name": "dua", "text": "dua" },
+  { "name": "tilu", "text": "tilu" },
+  { "name": "opat", "text": "opat" },
+  { "name": "lima", "text": "lima" },
+  { "name": "genep", "text": "genep" },
+  { "name": "tujuh", "text": "tujuh" },
+  { "name": "dalapan", "text": "dalapan" },
+  { "name": "salapan", "text": "salapan" },
+  { "name": "ka", "text": "ka" },
+  { "name": "ga", "text": "ga" },
+  { "name": "nga", "text": "nga" },
+  { "name": "ca", "text": "ca" },
+  { "name": "ja", "text": "ja" },
+  { "name": "nya", "text": "nya" },
+  { "name": "ta", "text": "ta" },
+  { "name": "da", "text": "da" },
+  { "name": "na", "text": "na" },
+  { "name": "pa", "text": "pa" },
+  { "name": "ba", "text": "ba" },
+  { "name": "ma", "text": "ma" },
+  { "name": "ya", "text": "ya" },
+  { "name": "ra", "text": "ra" },
+  { "name": "la", "text": "la" },
+  { "name": "wa", "text": "wa" },
+  { "name": "sa", "text": "sa" },
+  { "name": "ha", "text": "ha" },
+  { "name": "ki", "text": "ki" },
+  { "name": "ku", "text": "ku" },
+  { "name": "keu", "text": "keu" },
+  {
+    "name": "ke",
+    "text": "ke",
+    "prompt": "Ucapkan hanya suku kata ke dengan vokal e pepet, pendek, natural, jelas. Jangan tambahkan kata lain."
+  },
+  { "name": "ko", "text": "ko" },
+  { "name": "kuda", "text": "kuda" },
+  { "name": "bapak", "text": "bapak" },
+  { "name": "sapi", "text": "sapi" },
+  { "name": "bumi", "text": "bumi" },
+  { "name": "aya", "text": "aya" },
+  { "name": "maca", "text": "maca" },
+  { "name": "budi", "text": "bu di" },
+  { "name": "kuda-aya", "text": "kuda aya" },
+  { "name": "sapi-aya", "text": "sapi aya" },
+  { "name": "bapak-maca", "text": "bapak maca" },
+  { "name": "budi-maca", "text": "bu di maca" }
+]

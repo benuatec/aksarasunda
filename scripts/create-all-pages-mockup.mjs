@@ -1,0 +1,947 @@
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, "..");
+const outDir = path.join(rootDir, "generated-docs");
+
+const chromeCandidates = [
+  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+];
+
+const chromePath = chromeCandidates.find((candidate) => fs.existsSync(candidate));
+
+if (!chromePath) {
+  throw new Error("Chrome/Edge tidak ditemukan untuk render mockup.");
+}
+
+fs.mkdirSync(outDir, { recursive: true });
+
+const assetUrl = (relativePath) => pathToFileURL(path.join(rootDir, relativePath)).href;
+
+const htmlPath = path.join(outDir, "mockup-game-aksara-sunda-semua-halaman.html");
+const pngPath = path.join(outDir, "mockup-game-aksara-sunda-semua-halaman.png");
+const jpgPath = path.join(rootDir, "mockup-game-aksara-sunda-semua-halaman.jpg");
+
+const html = String.raw`<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>Mockup Semua Halaman Game Aksara Sunda</title>
+  <style>
+    @font-face {
+      font-family: "Noto Sunda Local";
+      src: url("${assetUrl("tmp-mockup-fonts/NotoSansSundanese-GoogleFonts.ttf")}") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #113d2b;
+      color: #132415;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    .poster {
+      width: 2200px;
+      min-height: 5400px;
+      padding: 72px;
+      background:
+        linear-gradient(180deg, rgba(12, 78, 68, 0.24), rgba(9, 47, 27, 0.78)),
+        url("${assetUrl("src/assets/sunda-bg.jpg")}") center / cover fixed;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border: 18px solid rgba(8, 38, 24, 0.62);
+      pointer-events: none;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 42px;
+      color: #fff3c2;
+      text-shadow: 0 6px 20px rgba(0, 0, 0, 0.48);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 78px;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 12px 0 0;
+      max-width: 980px;
+      font-size: 27px;
+      line-height: 1.25;
+      font-weight: 800;
+      color: #fff9df;
+    }
+
+    .domain {
+      padding: 17px 28px;
+      border: 4px solid #fff1bd;
+      border-radius: 999px;
+      background: rgba(10, 58, 43, 0.9);
+      font-size: 26px;
+      font-weight: 900;
+      white-space: nowrap;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.3);
+    }
+
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .screen {
+      min-height: 520px;
+      border: 5px solid #17442a;
+      border-radius: 32px;
+      background: linear-gradient(180deg, rgba(255, 246, 210, 0.97), rgba(255, 232, 166, 0.97));
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.42);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .wide {
+      grid-column: span 2;
+    }
+
+    .screen-header {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 26px;
+      border-bottom: 3px solid rgba(23, 68, 42, 0.28);
+      background: rgba(255, 250, 226, 0.76);
+    }
+
+    .screen-title {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 14px;
+      background: #0d3a2b;
+      color: #fff2bc;
+      padding: 10px 17px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      color: #185f2e;
+      font-size: 17px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .body {
+      padding: 25px;
+    }
+
+    .admin-small {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      z-index: 3;
+      border-radius: 999px;
+      background: rgba(13, 58, 43, 0.9);
+      color: #fff2bc;
+      padding: 7px 14px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .center {
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hero-card {
+      min-height: 355px;
+      border-radius: 26px;
+      border: 3px solid rgba(23, 68, 42, 0.25);
+      background:
+        linear-gradient(135deg, rgba(37, 135, 59, 0.28), rgba(255, 207, 47, 0.24)),
+        url("${assetUrl("src/assets/sg-hero.jpg")}") center / cover no-repeat;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "SUNDA GAME";
+      position: absolute;
+      left: 30px;
+      bottom: 28px;
+      padding: 12px 20px;
+      border-radius: 16px;
+      background: rgba(13, 58, 43, 0.9);
+      color: #fff2bc;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .btn {
+      min-height: 54px;
+      border-radius: 18px;
+      border: 3px solid #0d4c1e;
+      background: #19822f;
+      color: #fff7c7;
+      padding: 12px 18px;
+      font-size: 22px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 -5px rgba(0, 0, 0, 0.16), 0 8px 16px rgba(0, 0, 0, 0.14);
+    }
+
+    .btn.soft {
+      background: #fff6d8;
+      color: #132415;
+      border-color: rgba(23, 68, 42, 0.45);
+    }
+
+    .menu-layout {
+      display: grid;
+      grid-template-columns: 1fr 245px;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .menu-character {
+      min-height: 330px;
+      border-radius: 26px;
+      border: 3px solid rgba(23, 68, 42, 0.28);
+      background:
+        linear-gradient(135deg, rgba(40, 130, 56, 0.2), rgba(255, 210, 70, 0.3)),
+        url("${assetUrl("src/assets/sg-boy-wave.png")}") bottom center / contain no-repeat;
+    }
+
+    .menu-buttons {
+      display: grid;
+      gap: 11px;
+    }
+
+    .menu-button {
+      border-radius: 999px;
+      padding: 13px 18px;
+      border: 0;
+      box-shadow: inset 0 -5px rgba(0, 0, 0, 0.12), 0 7px 16px rgba(0, 0, 0, 0.2);
+      font-size: 20px;
+      font-weight: 900;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .green { background: #23863a; color: #fff8d4; }
+    .yellow { background: #ffc928; }
+    .pink { background: #c96ad2; }
+    .blue { background: #88d8ff; }
+    .cream { background: #f3eab5; }
+    .salmon { background: #ed8888; }
+    .orange { background: #ef8b24; }
+
+    .form-card {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 25px;
+      border: 3px solid rgba(23, 68, 42, 0.42);
+      border-radius: 25px;
+      background: rgba(255, 250, 228, 0.86);
+    }
+
+    .tab-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+      padding: 6px;
+      border-radius: 18px;
+      background: rgba(20, 65, 40, 0.12);
+    }
+
+    .tab {
+      padding: 11px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .tab.active {
+      background: #19822f;
+      color: #fff7c7;
+    }
+
+    .field {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      margin: 11px 0;
+      padding: 0 17px;
+      border: 3px solid #90a5a1;
+      border-radius: 14px;
+      background: #fffaf0;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .avatar-row,
+    .settings-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .avatar,
+    .toggle,
+    .chip {
+      border: 3px solid #17442a;
+      border-radius: 20px;
+      background: rgba(34, 132, 56, 0.12);
+      color: #167c2b;
+      padding: 15px 12px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .level-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .level-card {
+      min-height: 145px;
+      border: 3px solid #17442a;
+      border-radius: 23px;
+      background: #fff8df;
+      padding: 19px;
+      box-shadow: 0 12px 22px rgba(0, 0, 0, 0.12);
+    }
+
+    .level-card strong {
+      display: block;
+      color: #0c7d2b;
+      font-size: 26px;
+      margin-bottom: 7px;
+    }
+
+    .level-card span {
+      display: block;
+      color: #4b4634;
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 800;
+    }
+
+    .glyph-panel {
+      min-height: 330px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 28px;
+      border: 3px solid rgba(23, 68, 42, 0.16);
+      background: rgba(255, 250, 232, 0.78);
+      padding: 36px 24px 24px;
+    }
+
+    .glyph-label {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: 2px solid #cfc7aa;
+      background: #fffdf2;
+      color: #147b2b;
+      font-size: 19px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .speaker {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      background: #19822f;
+      color: #fff8d4;
+      font-size: 32px;
+      font-weight: 900;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .aksara {
+      font-family: "Noto Sunda Local", "Noto Sans Sundanese", sans-serif;
+      color: #102612;
+      font-size: 118px;
+      line-height: 0.95;
+    }
+
+    .aksara.big {
+      font-size: 150px;
+    }
+
+    .aksara.sentence {
+      font-size: 78px;
+      line-height: 1.05;
+    }
+
+    .read {
+      margin-top: 20px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .read strong,
+    .primary {
+      color: #0b872e;
+      font-weight: 900;
+    }
+
+    .question {
+      min-height: 165px;
+      display: grid;
+      place-items: center;
+      border: 3px dashed rgba(23, 68, 42, 0.38);
+      border-radius: 22px;
+      background: rgba(255, 250, 232, 0.65);
+      text-align: center;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 13px;
+      margin-top: 18px;
+    }
+
+    .choice {
+      min-height: 55px;
+      display: grid;
+      place-items: center;
+      border: 3px solid #17442a;
+      border-radius: 17px;
+      background: #fff9e5;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .choice.correct {
+      background: #d7ffd8;
+      color: #087126;
+      border-color: #38a346;
+    }
+
+    .sentence-slots {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .slot {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px dashed #1d7332;
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.42);
+      color: #13772c;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .small-choice-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .small-choice {
+      border: 3px solid #17442a;
+      border-radius: 16px;
+      background: #fff9e5;
+      padding: 15px 8px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .result-grid,
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .result-card,
+    .stat {
+      border: 3px solid rgba(23, 68, 42, 0.42);
+      border-radius: 20px;
+      background: #fff2c8;
+      padding: 18px;
+      min-height: 105px;
+    }
+
+    .result-card span,
+    .stat span {
+      display: block;
+      color: #4a513e;
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .result-card strong,
+    .stat strong {
+      color: #07822b;
+      font-size: 39px;
+      line-height: 1;
+    }
+
+    .canvas {
+      height: 295px;
+      border: 3px dashed rgba(23, 68, 42, 0.42);
+      border-radius: 22px;
+      background: rgba(255, 250, 232, 0.65);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .canvas .watermark {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: "Noto Sunda Local", sans-serif;
+      font-size: 195px;
+      color: rgba(13, 58, 43, 0.18);
+    }
+
+    .stroke {
+      position: absolute;
+      left: 160px;
+      top: 100px;
+      width: 280px;
+      height: 90px;
+      border-bottom: 10px solid #19822f;
+      border-radius: 999px;
+      transform: rotate(-15deg);
+    }
+
+    .progress-list,
+    .admin-table {
+      border: 3px solid rgba(23, 68, 42, 0.42);
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fff9e2;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1.2fr 0.9fr 0.7fr 1.2fr;
+      gap: 10px;
+      padding: 13px 15px;
+      border-bottom: 2px solid rgba(23, 68, 42, 0.18);
+      align-items: center;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .row:last-child {
+      border-bottom: 0;
+    }
+
+    .pill {
+      display: inline-block;
+      width: fit-content;
+      margin: 2px;
+      padding: 6px 10px;
+      border: 2px solid #39a648;
+      border-radius: 999px;
+      background: #d5ffd8;
+      color: #087126;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .celebration {
+      min-height: 355px;
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255, 246, 210, 0.18), rgba(255, 232, 166, 0.78)),
+        url("${assetUrl("src/assets/sg-wave.jpg")}") center / cover no-repeat;
+      display: grid;
+      place-items: end center;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .celebration h3 {
+      margin: 0;
+      padding: 12px 22px;
+      border-radius: 17px;
+      background: rgba(13, 58, 43, 0.88);
+      color: #fff2bc;
+      font-size: 38px;
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <section class="hero">
+      <div>
+        <h1>Mockup Semua Halaman</h1>
+        <p>Game Aksara Sunda, seluruh screen utama dalam satu file JPG sesuai warna dan gaya aplikasi.</p>
+      </div>
+      <div class="domain">aksarasunda.my.id</div>
+    </section>
+
+    <section class="grid">
+      <article class="screen">
+        <div class="admin-small">Admin</div>
+        <header class="screen-header"><div class="screen-title">01 Halaman Awal</div><div class="note">Splash</div></header>
+        <div class="body">
+          <div class="hero-card"></div>
+          <div class="center" style="margin-top: 18px;"><div class="btn">MULAI</div></div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">02 Petunjuk</div><div class="note">Modal bantuan</div></header>
+        <div class="body">
+          <div class="form-card">
+            <h3 style="margin: 0 0 14px; color: #0b872e; font-size: 30px;">Petunjuk Permainan</h3>
+            <div class="field">1. Pilih Mulai Belajar</div>
+            <div class="field">2. Kuis membuka level berikutnya</div>
+            <div class="field">3. Gunakan speaker untuk audio</div>
+            <div class="field">4. Latihan menulis di kanvas</div>
+            <div class="btn" style="width: 100%; margin-top: 12px;">Tutup</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">03 Register Siswa</div><div class="note">Data baru</div></header>
+        <div class="body">
+          <div class="form-card">
+            <div class="tab-row"><div class="tab active">Daftar</div><div class="tab">Masuk</div></div>
+            <div class="avatar-row"><div class="avatar">Laki-laki</div><div class="avatar">Perempuan</div></div>
+            <div class="field">Nama: Budi</div>
+            <div class="field">Kelas: 10 Satu</div>
+            <div class="field">Password: ******</div>
+            <div class="btn" style="width: 100%;">DAFTAR</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">04 Masuk Siswa</div><div class="note">Login</div></header>
+        <div class="body">
+          <div class="form-card">
+            <div class="tab-row"><div class="tab">Daftar</div><div class="tab active">Masuk</div></div>
+            <div class="field">Nama: Budi</div>
+            <div class="field">Kelas: 10 Satu</div>
+            <div class="field">Password: ******</div>
+            <div class="btn" style="width: 100%;">MASUK</div>
+            <div class="btn soft" style="width: 100%; margin-top: 12px;">Kembali ke Halaman Awal</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen wide">
+        <header class="screen-header"><div class="screen-title">05 Menu Utama</div><div class="note">Tombol pemain</div></header>
+        <div class="body menu-layout">
+          <div class="menu-character"></div>
+          <div class="menu-buttons">
+            <div class="menu-button green">Mulai Belajar</div>
+            <div class="menu-button yellow">Latihan Menulis</div>
+            <div class="menu-button pink">Membaca</div>
+            <div class="menu-button blue">Lihat Progres</div>
+            <div class="menu-button cream">Pengaturan</div>
+            <div class="menu-button salmon">Keluar</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">06 Pilih Level</div><div class="note">Level belajar</div></header>
+        <div class="body">
+          <div class="level-grid">
+            <div class="level-card"><strong>Level 1</strong><span>Aksara swara dan angka Sunda.</span></div>
+            <div class="level-card"><strong>Level 2</strong><span>Aksara ngalagena.</span></div>
+            <div class="level-card"><strong>Level 3</strong><span>Rarangken dan membaca kata.</span></div>
+            <div class="level-card"><strong>Level 4</strong><span>Menyusun kalimat sederhana.</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">07 Belajar Level 1</div><div class="note">Swara & angka</div></header>
+        <div class="body">
+          <div class="glyph-panel">
+            <div class="glyph-label">Angka Tilu</div>
+            <div class="speaker">♪</div>
+            <div><div class="aksara big">᮳</div><div class="read">Bacaannya: <strong>tilu</strong></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">08 Belajar Level 2</div><div class="note">Ngalagena</div></header>
+        <div class="body">
+          <div class="glyph-panel">
+            <div class="glyph-label">Ngalagena Ka</div>
+            <div class="speaker">♪</div>
+            <div><div class="aksara big">ᮊ</div><div class="read">Bacaannya: <strong>ka</strong></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">09 Belajar Level 3</div><div class="note">Rarangken</div></header>
+        <div class="body">
+          <div class="glyph-panel">
+            <div class="glyph-label">Rarangken: Paneuleung</div>
+            <div class="speaker">♪</div>
+            <div><div class="aksara">ᮊᮩ</div><div class="read">Bacaannya: <strong>keu</strong></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">10 Belajar Level 4</div><div class="note">Contoh kalimat</div></header>
+        <div class="body">
+          <div class="glyph-panel">
+            <div class="speaker">♪</div>
+            <div>
+              <div class="aksara sentence">ᮘᮕᮊ᮪ ᮙᮎ</div>
+              <div class="read">Kalimat: <strong>bapak maca</strong></div>
+              <div class="small-choice-row" style="margin-top: 18px;">
+                <div class="small-choice">bapak</div><div class="small-choice">maca</div><div class="small-choice">budak</div><div class="small-choice">bumi</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">11 Kuis Pilihan</div><div class="note">Level 1-3</div></header>
+        <div class="body">
+          <div class="question"><div><div class="aksara big">ᮊ</div><div class="read">Pilih bacaannya</div></div></div>
+          <div class="choices">
+            <div class="choice correct">ka</div><div class="choice">ga</div><div class="choice">na</div><div class="choice">ra</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">12 Kuis Susun Kata</div><div class="note">Level 4</div></header>
+        <div class="body">
+          <div class="question"><div><div class="aksara sentence">ᮘᮕᮊ᮪ ᮙᮎ</div><div class="read">Susun kalimat</div></div></div>
+          <div class="sentence-slots">
+            <div class="slot">bapak + maca</div>
+            <div class="small-choice-row"><div class="small-choice">bapak</div><div class="small-choice">maca</div><div class="small-choice">budak</div><div class="small-choice">bumi</div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">13 Hasil Permainan</div><div class="note">Skor level</div></header>
+        <div class="body">
+          <div class="result-grid">
+            <div class="result-card"><span>Skor Akhir</span><strong>80</strong><div style="font-size: 25px; margin-top: 8px;">★ ★ ☆</div></div>
+            <div class="result-card"><span>Benar</span><strong>8/10</strong><div style="font-weight: 900; color: #0b872e;">Naik level</div></div>
+          </div>
+          <div class="choices"><div class="choice correct">Main Lagi</div><div class="choice">Lanjut Level</div><div class="choice">Lihat Progres</div><div class="choice">Menu Utama</div></div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">14 Selesai</div><div class="note">Final</div></header>
+        <div class="body">
+          <div class="celebration"><h3>WILUJENG!</h3></div>
+          <div class="btn" style="width: 100%; margin-top: 18px;">Selesai</div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">15 Latihan Menulis</div><div class="note">Tracing</div></header>
+        <div class="body">
+          <div class="canvas"><div class="watermark">ᮊ</div><div class="stroke"></div></div>
+          <div class="read">Bacaan: <strong>ka</strong></div>
+          <div class="choices"><div class="choice">Ulangi</div><div class="choice correct">Cek Tulisan</div></div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">16 Membaca Kata</div><div class="note">Input bacaan</div></header>
+        <div class="body">
+          <div class="question"><div><div class="aksara sentence">ᮊᮥᮓ</div><div class="read">Baca kata aksara Sunda</div></div></div>
+          <div class="field">Jawaban: kuda</div>
+          <div class="choices"><div class="choice">Dengar</div><div class="choice correct">Cek Jawaban</div></div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">17 Lihat Progres</div><div class="note">Riwayat siswa</div></header>
+        <div class="body">
+          <div class="stats">
+            <div class="stat"><span>Total Skor</span><strong>180</strong></div>
+            <div class="stat"><span>Level Tertinggi</span><strong>4</strong></div>
+          </div>
+          <div class="progress-list" style="margin-top: 17px;">
+            <div class="row"><span>1</span><span>Level 1</span><span>90</span><span>Lulus</span></div>
+            <div class="row"><span>2</span><span>Level 2</span><span>80</span><span>Lulus</span></div>
+            <div class="row"><span>3</span><span>Level 3</span><span>70</span><span>Lulus</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">18 Pengaturan</div><div class="note">Profil & audio</div></header>
+        <div class="body">
+          <div class="avatar-row"><div class="avatar">Laki-laki</div><div class="avatar">Perempuan</div></div>
+          <div class="field">Nama Pemain: Budi</div>
+          <div class="settings-row"><div class="toggle">Musik ON</div><div class="toggle">Efek ON</div></div>
+          <div class="choices"><div class="choice correct">Simpan Profil</div><div class="choice">Reset Progres</div></div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">19 Admin Login</div><div class="note">Masuk admin</div></header>
+        <div class="body">
+          <div class="form-card">
+            <div class="field">Email admin</div>
+            <div class="field">Password admin</div>
+            <div class="btn" style="width: 100%;">MASUK ADMIN</div>
+            <div class="btn soft" style="width: 100%; margin-top: 12px;">Kembali</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen wide">
+        <header class="screen-header"><div class="screen-title">20 Admin Panel Siswa</div><div class="note">Kelola siswa</div></header>
+        <div class="body">
+          <div class="stats">
+            <div class="stat"><span>Total Siswa</span><strong>3</strong></div>
+            <div class="stat"><span>Siswa Aktif</span><strong>3</strong></div>
+            <div class="stat"><span>Nonaktif</span><strong>0</strong></div>
+            <div class="stat"><span>Total Skor</span><strong>180</strong></div>
+          </div>
+          <div class="admin-table" style="margin-top: 18px;">
+            <div class="row"><strong>Nama</strong><strong>Kelas</strong><strong>Level</strong><strong>Aksi</strong></div>
+            <div class="row"><span>Budi</span><span>10 Satu</span><span>3</span><span><i class="pill">Edit</i><i class="pill">Reset</i></span></div>
+            <div class="row"><span>Jono</span><span>10 Dua</span><span>2</span><span><i class="pill">Password</i><i class="pill">XLS</i></span></div>
+            <div class="row"><span>Teguh</span><span>10 Tiga Belas</span><span>4</span><span><i class="pill">Hapus</i></span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header"><div class="screen-title">21 Kelola Admin</div><div class="note">User admin</div></header>
+        <div class="body">
+          <div class="field">Tambah email admin baru</div>
+          <div class="admin-table">
+            <div class="row"><strong>Email</strong><strong>Status</strong><strong></strong><strong>Aksi</strong></div>
+            <div class="row"><span>admin@sekolah.id</span><span>Aktif</span><span></span><span><i class="pill">Edit</i></span></div>
+            <div class="row"><span>operator@sekolah.id</span><span>Aktif</span><span></span><span><i class="pill">Hapus</i></span></div>
+          </div>
+          <div class="btn orange" style="width: 100%; margin-top: 18px;">Mode Cek Level</div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>`;
+
+fs.writeFileSync(htmlPath, html, "utf8");
+
+function run(command, args, label) {
+  const result = spawnSync(command, args, { stdio: "pipe", encoding: "utf8" });
+  if (result.status !== 0) {
+    throw new Error(`${label} gagal.\n${result.stdout}\n${result.stderr}`);
+  }
+}
+
+run(
+  chromePath,
+  [
+    "--headless=new",
+    "--disable-gpu",
+    "--no-sandbox",
+    "--hide-scrollbars",
+    "--window-size=2200,5400",
+    "--virtual-time-budget=2500",
+    `--screenshot=${pngPath}`,
+    pathToFileURL(htmlPath).href,
+  ],
+  "Render PNG mockup semua halaman",
+);
+
+const convertScript = `
+Add-Type -AssemblyName System.Drawing
+$png = [System.Drawing.Image]::FromFile('${pngPath.replaceAll("'", "''")}')
+$bitmap = New-Object System.Drawing.Bitmap($png.Width, $png.Height)
+$graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+$graphics.Clear([System.Drawing.Color]::White)
+$graphics.DrawImage($png, 0, 0, $png.Width, $png.Height)
+$codec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq 'image/jpeg' }
+$params = New-Object System.Drawing.Imaging.EncoderParameters(1)
+$params.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, 92L)
+$bitmap.Save('${jpgPath.replaceAll("'", "''")}', $codec, $params)
+$graphics.Dispose()
+$bitmap.Dispose()
+$png.Dispose()
+`;
+
+run(
+  "powershell",
+  ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", convertScript],
+  "Konversi JPG mockup semua halaman",
+);
+
+console.log(`JPG mockup semua halaman: ${jpgPath}`);
+console.log(`Sumber HTML: ${htmlPath}`);

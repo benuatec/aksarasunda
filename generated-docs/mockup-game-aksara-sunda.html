@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>Mockup Game Aksara Sunda</title>
+  <style>
+    @font-face {
+      font-family: "Noto Sunda Local";
+      src: url("file:///D:/GAME/aksara-sunda/tmp-mockup-fonts/NotoSansSundanese-GoogleFonts.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #17452e;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      color: #112515;
+    }
+
+    .poster {
+      width: 1800px;
+      min-height: 2400px;
+      padding: 70px;
+      background:
+        linear-gradient(180deg, rgba(11, 80, 70, 0.34), rgba(8, 50, 28, 0.74)),
+        url("file:///D:/GAME/aksara-sunda/src/assets/sunda-bg.jpg") center / cover;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 18px solid rgba(8, 38, 24, 0.58);
+      pointer-events: none;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 38px;
+      color: #fff3c2;
+      text-shadow: 0 5px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 78px;
+      letter-spacing: -0.04em;
+      line-height: 0.92;
+    }
+
+    .hero p {
+      margin: 14px 0 0;
+      max-width: 760px;
+      font-size: 27px;
+      line-height: 1.25;
+      color: #fff9df;
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      border: 3px solid #fff1bd;
+      border-radius: 999px;
+      background: rgba(12, 63, 40, 0.88);
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+    }
+
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 34px;
+    }
+
+    .screen {
+      min-height: 610px;
+      border: 5px solid #17442a;
+      border-radius: 34px;
+      background:
+        linear-gradient(180deg, rgba(255, 244, 203, 0.96), rgba(255, 235, 175, 0.96));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.46);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px 30px;
+      border-bottom: 3px solid rgba(23, 68, 42, 0.32);
+      background: rgba(255, 248, 221, 0.75);
+    }
+
+    .screen-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 18px;
+      border-radius: 14px;
+      background: #0d3a2b;
+      color: #fff2bc;
+      font-weight: 900;
+      font-size: 21px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .mini-note {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1a5f2c;
+    }
+
+    .screen-body {
+      padding: 30px;
+    }
+
+    .menu-preview {
+      display: grid;
+      grid-template-columns: 1fr 270px;
+      gap: 32px;
+      align-items: center;
+      min-height: 460px;
+    }
+
+    .character-card {
+      border-radius: 30px;
+      padding: 30px;
+      min-height: 405px;
+      background:
+        linear-gradient(135deg, rgba(28, 126, 52, 0.28), rgba(255, 201, 40, 0.24)),
+        url("file:///D:/GAME/aksara-sunda/src/assets/sg-boy-wave.png") bottom center / contain no-repeat;
+      border: 3px solid rgba(23, 68, 42, 0.28);
+    }
+
+    .logo-card {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 18px;
+      background: rgba(13, 58, 43, 0.9);
+      color: #fff2bc;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    .menu-buttons {
+      display: grid;
+      gap: 13px;
+    }
+
+    .menu-button {
+      border-radius: 999px;
+      padding: 15px 22px;
+      font-weight: 900;
+      font-size: 24px;
+      border: 0;
+      box-shadow: inset 0 -5px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.18);
+      color: #102713;
+      white-space: nowrap;
+    }
+
+    .green { background: #23863a; color: #fff8d4; }
+    .yellow { background: #ffc928; }
+    .pink { background: #c96ad2; }
+    .blue { background: #88d8ff; }
+    .cream { background: #f3eab5; }
+    .salmon { background: #ed8888; }
+
+    .small-admin {
+      position: absolute;
+      right: 28px;
+      top: 26px;
+      border-radius: 999px;
+      padding: 8px 15px;
+      background: #0d3a2b;
+      color: #fff2bc;
+      font-size: 17px;
+      font-weight: 900;
+      z-index: 3;
+    }
+
+    .menu-note {
+      margin-right: 86px;
+    }
+
+    .form-card {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 28px;
+      border: 3px solid rgba(23, 68, 42, 0.42);
+      border-radius: 28px;
+      background: rgba(255, 249, 225, 0.86);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.14);
+    }
+
+    .field {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      margin: 13px 0;
+      border: 3px solid #90a5a1;
+      border-radius: 14px;
+      background: #fffaf0;
+      font-size: 23px;
+      font-weight: 700;
+      color: #243629;
+    }
+
+    .avatar-row {
+      display: flex;
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .avatar-pill {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      min-height: 82px;
+      border-radius: 22px;
+      border: 3px solid #17442a;
+      background: rgba(34, 132, 56, 0.13);
+      font-size: 22px;
+      font-weight: 900;
+      color: #167c2b;
+    }
+
+    .primary-button {
+      width: 100%;
+      height: 64px;
+      border-radius: 18px;
+      border: 3px solid #0d4c1e;
+      background: #19822f;
+      color: #fff7c7;
+      font-size: 25px;
+      font-weight: 900;
+      box-shadow: inset 0 -5px rgba(0, 0, 0, 0.15);
+    }
+
+    .level-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .level-card {
+      min-height: 180px;
+      border: 3px solid #17442a;
+      border-radius: 26px;
+      padding: 24px;
+      background: #fff8df;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .level-card strong {
+      display: block;
+      color: #0c7d2b;
+      font-size: 29px;
+      margin-bottom: 8px;
+    }
+
+    .level-card span {
+      display: block;
+      font-size: 21px;
+      line-height: 1.3;
+      color: #4b4634;
+      font-weight: 700;
+    }
+
+    .glyph-panel {
+      display: grid;
+      place-items: center;
+      min-height: 400px;
+      border-radius: 30px;
+      background: rgba(255, 250, 232, 0.78);
+      position: relative;
+      text-align: center;
+      border: 3px solid rgba(23, 68, 42, 0.16);
+    }
+
+    .glyph-label {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: #fffdf2;
+      border: 2px solid #cfc7aa;
+      color: #147b2b;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .speaker {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      display: grid;
+      place-items: center;
+      width: 68px;
+      height: 68px;
+      border-radius: 999px;
+      background: #19822f;
+      color: #fff8d4;
+      font-size: 36px;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+    }
+
+    .aksara {
+      font-family: "Noto Sunda Local", "Noto Sans Sundanese", sans-serif;
+      font-size: 142px;
+      line-height: 0.95;
+      color: #102612;
+    }
+
+    .read {
+      margin-top: 28px;
+      font-size: 34px;
+      font-weight: 500;
+    }
+
+    .read strong {
+      color: #0b872e;
+      font-weight: 900;
+    }
+
+    .sentence-row {
+      display: grid;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .slot {
+      min-height: 70px;
+      border: 3px dashed #1d7332;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: #13772c;
+      font-size: 24px;
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .choice {
+      border-radius: 18px;
+      padding: 18px 10px;
+      border: 3px solid #17442a;
+      background: #fff9e5;
+      text-align: center;
+      font-size: 23px;
+      font-weight: 900;
+      color: #142a19;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      border-radius: 20px;
+      border: 3px solid rgba(23, 68, 42, 0.42);
+      background: #fff2c8;
+      padding: 18px;
+      min-height: 102px;
+    }
+
+    .stat span {
+      display: block;
+      color: #4a513e;
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .stat strong {
+      font-size: 36px;
+      color: #07822b;
+    }
+
+    .admin-table {
+      border: 3px solid rgba(23, 68, 42, 0.42);
+      border-radius: 22px;
+      overflow: hidden;
+      background: #fff9e2;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 0.6fr 1.3fr;
+      gap: 10px;
+      padding: 15px 18px;
+      border-bottom: 2px solid rgba(23, 68, 42, 0.2);
+      align-items: center;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .table-row:last-child {
+      border-bottom: 0;
+    }
+
+    .chip {
+      display: inline-block;
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #d5ffd8;
+      border: 2px solid #39a648;
+      color: #087126;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 38px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 30px;
+      border-radius: 28px;
+      background: rgba(13, 58, 43, 0.88);
+      color: #fff3c2;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <section class="hero">
+      <div>
+        <h1>Game Aksara Sunda</h1>
+        <p>Mockup gabungan layar utama, registrasi siswa, pemilihan level, materi belajar, menyusun kalimat, dan admin panel.</p>
+      </div>
+      <div class="badge">aksarasunda.my.id</div>
+    </section>
+
+    <section class="grid">
+      <article class="screen">
+        <div class="small-admin">Admin</div>
+        <header class="screen-header">
+          <div class="screen-title">01 Menu Utama</div>
+          <div class="mini-note menu-note">Tombol besar untuk pemain</div>
+        </header>
+        <div class="screen-body menu-preview">
+          <div class="character-card">
+            <div class="logo-card">Game Aksara Sunda</div>
+          </div>
+          <div class="menu-buttons">
+            <button class="menu-button green">Mulai Belajar</button>
+            <button class="menu-button yellow">Latihan Menulis</button>
+            <button class="menu-button pink">Membaca</button>
+            <button class="menu-button blue">Lihat Progres</button>
+            <button class="menu-button cream">Pengaturan</button>
+            <button class="menu-button salmon">Keluar</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header">
+          <div class="screen-title">02 Daftar Siswa</div>
+          <div class="mini-note">Nama, kelas, password</div>
+        </header>
+        <div class="screen-body">
+          <div class="form-card">
+            <div class="field">Nama siswa: Budi</div>
+            <div class="field">Kelas: 10 Satu</div>
+            <div class="field">Password: ******</div>
+            <div class="avatar-row">
+              <div class="avatar-pill">Laki-laki</div>
+              <div class="avatar-pill">Perempuan</div>
+            </div>
+            <button class="primary-button">Masuk / Daftar</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header">
+          <div class="screen-title">03 Pilih Level</div>
+          <div class="mini-note">Flow bertahap dari mudah ke sulit</div>
+        </header>
+        <div class="screen-body">
+          <div class="level-grid">
+            <div class="level-card">
+              <strong>Level 1</strong>
+              <span>Aksara swara dan angka 0-9. Fokus mengenal bunyi awal.</span>
+            </div>
+            <div class="level-card">
+              <strong>Level 2</strong>
+              <span>Aksara ngalagena, huruf dasar, dan audio pelafalan.</span>
+            </div>
+            <div class="level-card">
+              <strong>Level 3</strong>
+              <span>Rarangken lengkap lalu membaca kata pendek.</span>
+            </div>
+            <div class="level-card">
+              <strong>Level 4</strong>
+              <span>Menyusun kalimat sederhana dari kata yang sudah dipelajari.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header">
+          <div class="screen-title">04 Belajar Aksara</div>
+          <div class="mini-note">Speaker hover/click untuk suara</div>
+        </header>
+        <div class="screen-body">
+          <div class="glyph-panel">
+            <div class="glyph-label">Rarangken: Paneuleung</div>
+            <div class="speaker">♪</div>
+            <div>
+              <div class="aksara">ᮊᮩ</div>
+              <div class="read">Bacaannya: <strong>keu</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header">
+          <div class="screen-title">05 Menyusun Kalimat</div>
+          <div class="mini-note">Level 4 tanpa harus bingung</div>
+        </header>
+        <div class="screen-body">
+          <div class="glyph-panel">
+            <div class="speaker">♪</div>
+            <div>
+              <div class="aksara" style="font-size: 92px;">ᮊᮥᮓ ᮃᮚ</div>
+              <div class="read">Kalimat: <strong>kuda aya</strong></div>
+              <div class="sentence-row">
+                <div class="slot">kuda + aya</div>
+                <div class="choice-row">
+                  <div class="choice">kuda</div>
+                  <div class="choice">aya</div>
+                  <div class="choice">sapi</div>
+                  <div class="choice">bumi</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="screen">
+        <header class="screen-header">
+          <div class="screen-title">06 Admin Panel</div>
+          <div class="mini-note">Kelola siswa dan user admin</div>
+        </header>
+        <div class="screen-body">
+          <div class="stats">
+            <div class="stat"><span>Total Siswa</span><strong>3</strong></div>
+            <div class="stat"><span>Siswa Aktif</span><strong>3</strong></div>
+            <div class="stat"><span>Nonaktif</span><strong>0</strong></div>
+            <div class="stat"><span>Total Skor</span><strong>180</strong></div>
+          </div>
+          <div class="admin-table">
+            <div class="table-row">
+              <strong>Nama</strong><strong>Kelas</strong><strong>Level</strong><strong>Aksi</strong>
+            </div>
+            <div class="table-row">
+              <span>Budi</span><span>10 Satu</span><span>3</span><span><i class="chip">Edit</i> <i class="chip">Reset</i></span>
+            </div>
+            <div class="table-row">
+              <span>Jono</span><span>10 Dua</span><span>2</span><span><i class="chip">Password</i> <i class="chip">XLS</i></span>
+            </div>
+            <div class="table-row">
+              <span>Teguh</span><span>10 Tiga Belas</span><span>4</span><span><i class="chip">Admin</i> <i class="chip">Hapus</i></span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="footer">
+      <span>Alur: register siswa → belajar bertahap → kuis → progres tersimpan di Supabase.</span>
+      <span>Deploy: Cloudflare</span>
+    </section>
+  </main>
+</body>
+</html>
