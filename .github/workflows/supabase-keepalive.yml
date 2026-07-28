@@ -22,5 +22,5 @@ jobs:
         run: |
           curl -s \
             "$SUPABASE_URL/rest/v1/profiles?select=id&limit=1" \
-            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2eHZhZ2VldXR0Y29wYWZmY2dxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDA0NzQsImV4cCI6MjA5NDAxNjQ3NH0.NZ8jIXyjXfSL9dn-bXnfKWTZ8yG05qyRquLWPw6HaTI" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
             -H "Authorization: Bearer $SUPABASE_ANON_KEY"
