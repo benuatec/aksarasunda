@@ -2,7 +2,7 @@ name: Supabase Keep Alive
 
 on:
   schedule:
-    # Setiap 3 hari sekali
+    # Jalankan setiap 3 hari sekali
     - cron: "0 2 */3 * *"
 
   workflow_dispatch:
@@ -23,8 +23,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: keepalive/package.json
 
       - name: Install dependencies
         run: npm install
