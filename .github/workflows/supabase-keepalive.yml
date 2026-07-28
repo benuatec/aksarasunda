@@ -2,7 +2,7 @@ name: Supabase Keep Alive
 
 on:
   schedule:
-    # Setiap 3 hari sekali
+    # Setiap 3 hari
     - cron: "0 2 */3 * *"
 
   workflow_dispatch:
@@ -12,15 +12,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Random delay
         run: sleep $((RANDOM % 1800))
 
-      - name: Ping Supabase
+      - name: Run Keep Alive
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-        run: |
-          curl -s \
-            "$SUPABASE_URL/rest/v1/profiles?select=id&limit=1" \
-            -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY"
+          SUPABASE_TABLE: ${{ secrets.SUPABASE_TABLE }}
+        run: node scripts/keepalive.js
