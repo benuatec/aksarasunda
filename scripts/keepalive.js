@@ -1,4 +1,3 @@
-
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -7,17 +6,21 @@ const supabase = createClient(
 );
 
 async function keepAlive() {
-  const { error } = await supabase
-    .from("profiles") // ganti dengan nama tabel Anda
-    .select("id")
+  console.log(`🔄 Pinging table: ${process.env.SUPABASE_TABLE}`);
+
+  const { data, error } = await supabase
+    .from(process.env.SUPABASE_TABLE)
+    .select("*")
     .limit(1);
 
   if (error) {
+    console.error("❌ Keep Alive gagal");
     console.error(error);
     process.exit(1);
   }
 
-  console.log("✅ Supabase berhasil di-ping");
+  console.log("✅ Keep Alive berhasil");
+  console.log(data);
 }
 
 keepAlive();
